@@ -1,15 +1,14 @@
 openapi: 3.0.0
 info:
-  title: "Consulta Saldos y Movimientos"
-  description: "Estos son los servicios para consultar saldos y movimientos"
+  title: "Consulta Saldos"
+  description: "Estos son los servicios para consultar saldos"
   version: "1.0"
-
+servers:
+  - url: 'https://practicabanco.getsandbox.com:443/balances'
 tags:
-  - name: "Consulta saldos y movimientos"
-    description: "Servicio destinado a la consulta de saldos y movimientos de un cliente"
-  - name: "Consulta"
-    description: "Servicio destinado a la consulta de saldo y movimientos"
-  
+  - name: "Consulta saldos"
+    description: "Servicio destinado a la consulta de saldos de un cliente"
+
 paths:
 
   # --------------------------------
@@ -19,7 +18,7 @@ paths:
   /balance:
     post:
       tags:
-        - "Saldo"
+        - "Consulta saldos"
       summary: "Permite consultar el saldo consolidado"
       description: "Esta operacion nos permite cosultar los saldos por medio de una cuenta"
       parameters:
@@ -102,172 +101,8 @@ paths:
                 $ref:  "#/components/schemas/rpBalance"
   
 
-  # --------------------------------
-  #  movements
-  # --------------------------------
-
-  /movements:
-    post:
-      tags:
-        - "Movimientos"
-      summary: "Permite consultar los movimientos de una cuenta"
-      description: "Esta operacion nos permite cosultar los movimientos de una cuenta"
-      parameters:
-        - in: header
-          name: Transaction-Tracker
-          schema:
-            type: string
-            format: uuid
-            example: "8348c30c-1296-4882-84b8-d7306205ce26"
-          description: "ID para trazabilidad de la transacción ante logs. Debe ser proporcionado por el front. debe ser único por transacción."
-          required: true
-        - in: header
-          name: Session-Tracker
-          schema:
-            type: string
-            format: uuid
-            example: "15980943-5fcd-4423-a948-b015452d7479"
-          description: "ID para trazabilidad de la sesión. Debe ser proporcionado por el front. Se debe enviar el correspondiente a la sesion de usuario activa."
-          required: true
-        - in: header
-          name: "Channel"
-          schema:
-            type: string
-            example: "APP"
-          description: "Identificador del canal que esta usando el servicio."
-          required: true
-        - in: header
-          name: "Date"
-          schema:
-            type: string
-            format: utf-8 
-            example: "2019/08/23"
-          description: "Información de la fecha actual del front, en la que se envió la petición al servicio."
-          required: true
-        - in: header
-          name: "Date-time"
-          schema:
-            type: string
-            format: utf-8
-            example: "15:59:00"
-          description: "Información de la hora actual del front, en la que se envió la petición al servicio en formato 24h"
-          required: true
-        - in: header
-          name: "Ip"
-          schema:
-            type: string
-            example: "192.168.164.25"
-          description: "Ip del dispositivo en el cual se generó la petición."
-          required: true
-        - in: header
-          name: "ClientID"
-          schema:
-            type: string
-            example: "10095928"
-          description: "Documento de identificación del cliente que realiza la petición."
-          required: true
-        - in: header
-          name: "ClientType"
-          schema:
-            type: string
-            example: "CC"
-          description: "Tipo de Documento de identificación del cliente que realiza la petición."
-          required: true
-          
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: "object"
-              $ref: "#/components/schemas/rqMovements"
-      
-      responses:
-        200:
-          description: "200 ok"
-          content:
-            application/json:
-              schema:
-                type: "object"
-                $ref:  "#/components/schemas/rpMovements"
-
 components:
   schemas:
-
-    rqMovements:
-      type: "object"
-      required:
-        - "data"
-      properties:
-        data:
-          type: "array"
-          items: 
-            type: "object"
-            uniqueItems: true
-            required:
-              - "account"
-              - "transaction"
-              - "pagination"
-            properties:
-              account:
-                type: "object"
-                $ref:  "#/components/schemas/account"
-              transaction:
-                type: "object"
-                $ref: "#/components/schemas/transation"
-              pagination: 
-                type: "object"
-                $ref: "#/components/schemas/pagination"
-              office: 
-                type: "object"
-                $ref: "#/components/schemas/office"
-
-    rpMovements:
-      type: "object"
-      required:
-        - "data"
-      properties:
-        data:
-          type: "array"
-          items: 
-            type: "object"
-            uniqueItems: true
-            required:
-              - "_responseSize"
-              - "_flagMoreRecords"
-              - "transaction"
-              - "office"
-              - "customer"
-            properties:
-              _responseSize:
-                type: "number"
-                maxLength: 2
-                description: "Total de registros"
-                example: "276"
-              _flagMoreRecords:
-                type: "boolean"
-                description: "Indica si existen mas registros en la solicitud"
-                example: false
-              transaction:
-                type: "array"
-                items:
-                  type: "object"
-                  uniqueItems: true
-                  $ref: "#/components/schemas/transationArray"
-              office: 
-                type: "object"
-                $ref: "#/components/schemas/office"
-              relatedTransferAccount: 
-                type: "object"
-                $ref: "#/components/schemas/relatedTransferAccount"
-              customer: 
-                type: "object"
-                $ref: "#/components/schemas/customer"
-        status:
-          type: "object"
-          $ref:  "#/components/schemas/status"
-
-
     rqBalance:
       type: "object"
       required:
@@ -289,7 +124,6 @@ components:
       type: "object"
       required:
         - "data"
-        - "status"
       properties:
         data:
           type: "array"
@@ -302,40 +136,7 @@ components:
               account:
                 type: "object"
                 $ref:  "#/components/schemas/accountBalance"
-        status:
-          type: "object"
-          $ref:  "#/components/schemas/status"
-
-    status:
-      type: "object"
-      required:
-        - "code"
-        - "title"
-        - "detail"
-        - "severity"
-      properties:
-        code:
-          type: "string"
-          maxLength: 4
-          description: "codigo de respuesta"
-          example: "000"
-        title:
-          type: "string"
-          maxLength: 50
-          description: "Titulo de la respuesta"
-          example: "TRANSACCION EXITOSA"
-        detail:
-          type: "string"
-          maxLength: 50
-          description: "Detalle de la respuesta"
-          example: "TRANSACCION EXITOSA"
-        severity:
-          type: "string"
-          maxLength: 50
-          description: "Severidad del error"
-          example: "INFO"
-
-    
+  
     account:
       type: "object"
       required:

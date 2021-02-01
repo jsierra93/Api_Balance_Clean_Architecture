@@ -1,0 +1,488 @@
+openapi: 3.0.0
+info:
+  title: "Consulta de Movimientos"
+  description: "Estos son los servicios para consultar movimientos"
+  version: "1.0"
+servers:
+  - url: 'https://practicabanco.getsandbox.com:443/movements'
+tags:
+  - name: "Consulta de movimientos"
+    description: "Servicio destinado a la consulta de movimientos de un cliente"
+
+  
+paths:
+  # --------------------------------
+  #  movements
+  # --------------------------------
+
+  /movements:
+    post:
+      tags:
+        - "Movimientos"
+      summary: "Permite consultar los movimientos de una cuenta"
+      description: "Esta operacion nos permite cosultar los movimientos de una cuenta"
+      parameters:
+        - in: header
+          name: Transaction-Tracker
+          schema:
+            type: string
+            format: uuid
+            example: "8348c30c-1296-4882-84b8-d7306205ce26"
+          description: "ID para trazabilidad de la transacción ante logs. Debe ser proporcionado por el front. debe ser único por transacción."
+          required: true
+        - in: header
+          name: Session-Tracker
+          schema:
+            type: string
+            format: uuid
+            example: "15980943-5fcd-4423-a948-b015452d7479"
+          description: "ID para trazabilidad de la sesión. Debe ser proporcionado por el front. Se debe enviar el correspondiente a la sesion de usuario activa."
+          required: true
+        - in: header
+          name: "Channel"
+          schema:
+            type: string
+            example: "APP"
+          description: "Identificador del canal que esta usando el servicio."
+          required: true
+        - in: header
+          name: "Date"
+          schema:
+            type: string
+            format: utf-8 
+            example: "2019/08/23"
+          description: "Información de la fecha actual del front, en la que se envió la petición al servicio."
+          required: true
+        - in: header
+          name: "Date-time"
+          schema:
+            type: string
+            format: utf-8
+            example: "15:59:00"
+          description: "Información de la hora actual del front, en la que se envió la petición al servicio en formato 24h"
+          required: true
+        - in: header
+          name: "Ip"
+          schema:
+            type: string
+            example: "192.168.164.25"
+          description: "Ip del dispositivo en el cual se generó la petición."
+          required: true
+        - in: header
+          name: "ClientID"
+          schema:
+            type: string
+            example: "10095928"
+          description: "Documento de identificación del cliente que realiza la petición."
+          required: true
+        - in: header
+          name: "ClientType"
+          schema:
+            type: string
+            example: "CC"
+          description: "Tipo de Documento de identificación del cliente que realiza la petición."
+          required: true
+          
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: "object"
+              $ref: "#/components/schemas/rqMovements"
+      
+      responses:
+        200:
+          description: "200 ok"
+          content:
+            application/json:
+              schema:
+                type: "object"
+                $ref:  "#/components/schemas/rpMovements"
+
+components:
+  schemas:
+
+    rqMovements:
+      type: "object"
+      required:
+        - "data"
+      properties:
+        data:
+          type: "array"
+          items: 
+            type: "object"
+            uniqueItems: true
+            required:
+              - "account"
+              - "transaction"
+              - "pagination"
+            properties:
+              account:
+                type: "object"
+                $ref:  "#/components/schemas/account"
+              transaction:
+                type: "object"
+                $ref: "#/components/schemas/transation"
+              pagination: 
+                type: "object"
+                $ref: "#/components/schemas/pagination"
+              office: 
+                type: "object"
+                $ref: "#/components/schemas/office"
+
+    rpMovements:
+      type: "object"
+      required:
+        - "data"
+      properties:
+        data:
+          type: "array"
+          items: 
+            type: "object"
+            uniqueItems: true
+            required:
+              - "_responseSize"
+              - "_flagMoreRecords"
+              - "transaction"
+              - "office"
+              - "customer"
+            properties:
+              _responseSize:
+                type: "number"
+                maxLength: 2
+                description: "Total de registros"
+                example: "276"
+              _flagMoreRecords:
+                type: "boolean"
+                description: "Indica si existen mas registros en la solicitud"
+                example: false
+              transaction:
+                type: "array"
+                items:
+                  type: "object"
+                  uniqueItems: true
+                  $ref: "#/components/schemas/transationArray"
+              office: 
+                type: "object"
+                $ref: "#/components/schemas/office"
+              relatedTransferAccount: 
+                type: "object"
+                $ref: "#/components/schemas/relatedTransferAccount"
+              customer: 
+                type: "object"
+                $ref: "#/components/schemas/customer"
+
+    rqBalance:
+      type: "object"
+      required:
+        - "data"
+      properties:
+        data:
+          type: "array"
+          items: 
+            type: "object"
+            uniqueItems: true
+            required:
+              - "account"
+            properties:
+              account:
+                type: "object"
+                $ref:  "#/components/schemas/account"
+  
+    account:
+      type: "object"
+      required:
+        - "type"
+        - "number"
+      properties:
+        type:
+          type: "string"
+          maxLength: 50
+          description: "Tipo de cuenta"
+          example: "CUENTA_DE_AHORRO"
+        number:
+          type: "string"
+          maxLength: 16
+          description: "Tipo de cuenta"
+          example: "40678098765"
+
+    accountBalance:
+      type: "object"
+      required:
+        - "balances"
+      properties:
+        balances:
+          type: "object"
+          $ref:  "#/components/schemas/balances"
+
+    balances:
+      type: "object"
+      required:
+        - "available"
+        - "availableOverdraftBalance"
+        - "overdraftValue"
+        - "availableOverdraftQuota"
+        - "cash"
+        - "unavailableClearing"
+        - "receivable"
+        - "blocked"
+        - "unavailableStartDayClearingStartDay"
+        - "cashStartDay"
+        - "pockets"
+        - "remittanceQuota"
+        - "agreedRemittanceQuota"
+        - "remittanceQuotaUsage"
+        - "normalInterest"
+        - "suspensionInterest"
+      properties:
+        available:
+          type: "number"
+          maxLength: 16
+          description: "Saldo disponible"
+          example: "1,200,000.0000"
+        availableOverdraftBalance:
+          type: "number"
+          maxLength: 16
+          description: "Saldo disponible. + Valor cupo de sobregiro."
+          example: "0"
+        overdraftValue:
+          type: "number"
+          maxLength: 16
+          description: "Valor total del Cupo de Sobregiro."
+          example: "0"
+        availableOverdraftQuota:
+          type: "number"
+          maxLength: 16
+          description: "Valor del Cupo de Sobregiro que se puede utilizar."
+          example: "0"
+        cash:
+          type: "number"
+          maxLength: 16
+          description: "Saldo en efectivo."
+          example: "25,000,000.0000"
+        unavailableClearing:
+          type: "number"
+          maxLength: 16
+          description: "Saldo en canje."
+          example: "0.0000"
+        receivable:
+          type: "number"
+          maxLength: 16
+          description: "Saldos en cuentas por cobrar."
+          example: "1,500,000.0000"
+        blocked:
+          type: "number"
+          maxLength: 16
+          description: "Saldo bloqueado."
+          example: "0.0000"
+        unavailableStartDayClearingStartDay:
+          type: "number"
+          maxLength: 16
+          description: "Saldo en canje al inicio del día."
+          example: "0.0000"
+        cashStartDay:
+          type: "number"
+          maxLength: 16
+          description: "Saldo en efectivo al inicio del día."
+          example: "18,000.0000"
+        pockets:
+          type: "number"
+          maxLength: 16
+          description: "Saldo de bolsillos."
+          example: "800,000.0000"
+        remittanceQuota:
+          type: "number"
+          maxLength: 16
+          description: "Cupo remesas consignadas."
+          example: "5,000.0000"
+        agreedRemittanceQuota:
+          type: "number"
+          maxLength: 16
+          description: "Cupo remesa negociada."
+          example: "0.0000"
+        remittanceQuotaUsage:
+          type: "number"
+          maxLength: 16
+          description: "Saldo utilizado cupo de la remesa."
+          example: "0.0000"
+        normalInterest:
+          type: "number"
+          maxLength: 16
+          description: "Intereses de sobregiro que tienen menos de 90 días."
+          example: "0"
+        suspensionInterest:
+          type: "number"
+          maxLength: 16
+          description: "Intereses de sobregiro que tienen mas de 90 días o menos dependiendo de la calificación del cliente."
+          example: "0"
+
+    transation:
+      type: "object"
+      required:
+        - "startDate"
+        - "endDate"
+      properties:
+        startDate:
+          type: "string"
+          description: "Fecha a partir de la cual se desean consultar los movimientos de la cuenta."
+          example: "2020-01-01"
+        endDate:
+          type: "string"
+          description: "Fecha hasta la cual se desean consultar los movimientos de la cuenta."
+          example: "'2020-01-30"
+        minAmount: 
+          type: "number"
+          maxLength: 16
+          description: "Valor a partir del cual se desean consultar los movimientos de la cuenta."
+          example: "2"
+        maxAmount: 
+          type: "number"
+          maxLength: 16
+          description: "Valor hasta el cual se desean consultar los movimientos de la cuenta."
+          example: "4"
+        type: 
+          type: "string"
+          maxLength: 16
+          description: "Tipo o naturaleza del movimiento por el cual se desea realizar la consulta."
+          example: "DEBITO"
+        checkNumber: 
+          type: "string"
+          maxLength: 16
+          description: "Corresponde al número de cheque en caso que el movimiento haya sido con cheque."
+          example: ""
+        group: 
+          type: "string"
+          maxLength: 16
+          description: "Campo que permite filtrar la información de las transacciones de acuerdo con el grupo al que pertenece cada una de ellas, este grupo permite clasificar las transacciones por producto y tipo de operación.
+Ejemplo: consignaciones, comisiones, cheque"
+          example: ""
+        description: 
+          type: "string"
+          maxLength: 16
+          description: "descripción del movimiento."
+          example: ""
+        
+    pagination:
+      type: "object"
+      required:
+        - "size"
+        - "key"
+      properties:
+        size:
+          type: "number"
+          maxLength: 2
+          description: "Cantidad de registros por página."
+          example: "30"
+        key:
+          type: "number"
+          maxLength: 3
+          description: "Número de la página."
+          example: "1"  
+
+    office:
+      type: "object"
+      properties:
+        code:
+          type: "string"
+          maxLength: 8
+          description: "Código de la oficina donde se realizó la transacción o de la oficina dueña de la cuenta a la que pertenece la transacción."
+          example: "2005678"
+        name:
+          type: "string"
+          maxLength: 50
+          description: "nombre de la oficina donde se realizó la transacción o de la oficina dueña de la cuenta a la que pertenece la transacción."
+          example: "2005678"  
+
+    relatedTransferAccount:
+      type: "object"
+      required:
+        - "type"
+        - "number"
+      properties:
+        type:
+          type: "string"
+          description: "Tipo de cuenta asociada al movimiento (origen o destino)."
+          example: "CUENTA_DE_AHORRO"
+        number:
+          type: "string"
+          maxLength: 16
+          description: "Número de cuenta asociada al movimiento (origen o destino)."
+          example: ""
+
+    customer:
+      type: "object"
+      required:
+        - "name"
+      properties:
+        name:
+          type: "string"
+          description: "Nombre completo del cliente titular de la cuenta asociada a la transferencia, aplica para transferencias."
+          example: "Luis Muriel Agudelo"  
+    
+    transationArray:
+      type: "object"
+      required:
+        - "id"
+        - "postedDate"
+        - "description"
+        - "amount"
+        - "type"
+      properties:
+        id: 
+          type: "string"
+          maxLength: 6
+          minLength: 1
+          description: "código de la transacción que identifica el tipo de movimiento en depositos."
+          example: "8316"
+        postedDate: 
+          type: "string"
+          description: "Fecha efectiva en la cual se hace la afectación del saldo de la cuenta, puede ser de días anteriores."
+          example: "2020-03-01"
+        description: 
+          type: "string"
+          maxLength: 6
+          minLength: 1
+          description: "Descripción o nombre del movimiento."
+          example: "Abono preautorizado donación"
+        amount: 
+          type: "number"
+          maxLength: 6
+          minLength: 1
+          description: "Valor del movimiento."
+          example: "12400.0000"
+        type: 
+          type: "string"
+          maxLength: 6
+          minLength: 1
+          description: "Tipo de movimiento, indica si la transacción es de naturaleza débito o crédito."
+          example: "DEBITO"
+        reference1: 
+          type: "string"
+          maxLength: 50
+          minLength: 0
+          description: "Texto libre que coloca el consumidor al realizar los movimientos en el cual puede indicar una referencia o valor útil para el cliente.
+Ejemplo: número de documento de identidad, código de una factura."
+          example: ""
+        reference2: 
+          type: "string"
+          maxLength: 50
+          minLength: 0
+          description: "Texto libre que coloca el consumidor al realizar los movimientos en el cual puede indicar una referencia o valor útil para el cliente.
+Ejemplo: número de documento de identidad, código de una factura."
+          example: ""
+        reference3: 
+          type: "string"
+          maxLength: 50
+          minLength: 0
+          description: "Texto libre que coloca el consumidor al realizar los movimientos en el cual puede indicar una referencia o valor útil para el cliente.
+Ejemplo: número de documento de identidad, código de una factura."
+          example: ""
+        checkNumber:
+          type: "string"
+          maxLength: 16
+          description: "Corresponde al número de cheque en caso tal que el movimiento haya sido CHEQUE."
+          example: "null"
+        
+
+
