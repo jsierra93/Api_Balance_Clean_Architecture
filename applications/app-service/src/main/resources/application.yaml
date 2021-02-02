@@ -1,9 +1,9 @@
 ##Spring Configuration
 server:
-  port: 8080
+  port: 8081
 spring:
   application:
-    name: balance
+    name: balance-movements
   devtools:
     add-properties: false
   h2:
@@ -12,3 +12,10 @@ spring:
       path: /h2
   profiles:
     include:
+
+
+balance:
+  url: https://practicabanco.getsandbox.com:443/balances
+
+transaction:
+  url: https://practicabanco.getsandbox.com:443/movements

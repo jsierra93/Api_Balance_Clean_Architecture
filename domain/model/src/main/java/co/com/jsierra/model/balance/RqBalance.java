@@ -1,11 +1,13 @@
 package co.com.jsierra.model.balance;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
 @Data
 @Builder(toBuilder = true)
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 public class RqBalance {
     List<RqDataBalance> data;
 }

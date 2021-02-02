@@ -1,0 +1,5 @@
+dependencies {
+    compile project(':model')
+    compile 'org.springframework:spring-context'
+    implementation libs.spring_boot
+}

@@ -5,10 +5,7 @@ import co.com.jsierra.model.balance.RqBalance;
 import co.com.jsierra.model.balance.RqDataBalance;
 import co.com.jsierra.model.balance.RsBalance;
 import co.com.jsierra.model.balance.gateways.BalanceGateway;
-import co.com.jsierra.model.balancemovements.RqBalancemovements;
-import co.com.jsierra.model.balancemovements.RqData;
-import co.com.jsierra.model.balancemovements.RsBalancemovements;
-import co.com.jsierra.model.balancemovements.RsData;
+import co.com.jsierra.model.balancemovements.*;
 import co.com.jsierra.model.transaction.RqDataTransaction;
 import co.com.jsierra.model.transaction.RqTransaction;
 import co.com.jsierra.model.transaction.RsTransaction;
@@ -26,7 +23,7 @@ public class BalancemovementUseCase {
     private final TransactionGateway transactionGateway;
 
 
-    public Mono<RsBalancemovements> getBalanceMovements(RqBalancemovements rqBalancemovements){
+    public Mono<RsBalancemovements> getBalanceMovements(RqBalancemovements rqBalancemovements) {
         //Construimos los request Balance
         RqData rqData = rqBalancemovements.getData().get(0);
 
@@ -57,7 +54,7 @@ public class BalancemovementUseCase {
         Mono<RsTransaction> rsTransaction = transactionGateway.getTransactions(rqTransaction);
 
         return Mono.zip(rsBalance, rsTransaction)
-                .flatMap( response -> {
+                .flatMap(response -> {
                     List<RsData> data = new ArrayList<>();
                     data.add(RsData.builder()
                             .responseSize(response.getT2().getData().get(0).getResponseSize())
@@ -72,6 +69,12 @@ public class BalancemovementUseCase {
 
                     RsBalancemovements rsBalancemovements = RsBalancemovements.builder()
                             .data(data)
+                            .status(RsStatus.builder()
+                                    .code("000")
+                                    .title("TRANSACCION EXITOSA")
+                                    .detail("TRANSACCION EXITOSA")
+                                    .severity("INFO")
+                                    .build())
                             .build();
 
                     return Mono.just(rsBalancemovements);

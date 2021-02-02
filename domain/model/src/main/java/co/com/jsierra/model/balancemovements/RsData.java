@@ -7,13 +7,17 @@ import co.com.jsierra.model.transaction.RsCustomer;
 import co.com.jsierra.model.transaction.RsRelatedTransferAccount;
 import co.com.jsierra.model.transaction.RsTransactionBody;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RsData {
 
     @JsonProperty("_responseSize")

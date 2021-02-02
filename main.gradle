@@ -39,6 +39,12 @@ subprojects {
     }
 
         ext.libs = [
+                spring_boot: [
+                        "org.springframework.boot:spring-boot-starter-actuator",
+                        "org.springframework.boot:spring-boot-starter-logging:${springBootVersion}",
+                        "org.springframework.boot:spring-boot-devtools:${springBootVersion}",
+                        "org.springframework.boot:spring-boot-starter-webflux:${springBootVersion}"
+                ],
                 jack:[
                         "com.fasterxml.jackson.core:jackson-annotations:2.10.0"
                 ]

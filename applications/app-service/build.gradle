@@ -1,6 +1,8 @@
 apply plugin: 'org.springframework.boot'
 
 dependencies {
+	implementation project(':reactive-web')
+	implementation project(':restproduct')
     implementation project(':model')
     implementation project(':usecase')
     compile 'org.springframework.boot:spring-boot-starter'
