@@ -1,5 +1,6 @@
 package co.com.jsierra.model.balancemovements;
 
+import co.com.jsierra.model.balance.RqAccount;
 import co.com.jsierra.model.balance.RsAccount;
 import co.com.jsierra.model.balance.RsBalances;
 import co.com.jsierra.model.transaction.RqOffice;
@@ -27,7 +28,7 @@ public class RsData {
     private Boolean flagMoreRecords;
 
     private RsBalances balances;
-    private RsAccount account;
+    private RqAccount account;
     private List<RsTransactionBody> transaction;
     private RqOffice office;
     private RsRelatedTransferAccount relatedTransferAccount;

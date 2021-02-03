@@ -13,9 +13,10 @@ spring:
   profiles:
     include:
 
+urlbase: https://practicabanco.getsandbox.com:443
 
 balance:
-  url: https://practicabanco.getsandbox.com:443/balances
+  url: /balances
 
 transaction:
-  url: https://practicabanco.getsandbox.com:443/movements
+  url: /movements

@@ -1,0 +1,48 @@
+plugins {
+    id 'java'
+}
+
+group 'co.com.bancolombia'
+version '1.0-SNAPSHOT'
+
+repositories {
+    mavenCentral()
+    maven { url "https://repo.spring.io/snapshot" }
+    maven { url "https://repo.spring.io/milestone" }
+}
+
+sourceSets {
+    test {
+        java {
+            srcDir file('src/test/java')
+            exclude '**/*UiRunner*.java'
+        }
+        resources {
+            srcDir file('src/test/java')
+            exclude '**/*.java'
+        }
+    }
+}
+
+ext{
+    karateVersion = '0.9.2'
+    cucumberReporting = '5.3.0'
+}
+
+dependencies {
+	testCompile "com.intuit.karate:karate-junit4:${karateVersion}"
+	testCompile "com.intuit.karate:karate-netty:${karateVersion}"
+	testCompile "com.intuit.karate:karate-apache:${karateVersion}"
+	testCompile "net.masterthought:cucumber-reporting:${cucumberReporting}"
+}
+
+test {
+    include '**/*ParallelTest*'
+}
+
+task deleteReport(type: Delete) {
+    delete 'target', '*'
+    followSymlinks = true
+}
+
+gradle.startParameter.refreshDependencies = true
