@@ -3,6 +3,7 @@ package co.com.jsierra.api;
 
 import co.com.jsierra.model.commons.ErrorHeader;
 import co.com.jsierra.model.commons.Header;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.server.HandlerFilterFunction;
 import org.springframework.web.reactive.function.server.HandlerFunction;
@@ -10,6 +11,7 @@ import org.springframework.web.reactive.function.server.ServerRequest;
 import org.springframework.web.reactive.function.server.ServerResponse;
 import reactor.core.publisher.Mono;
 
+@Slf4j
 @Component
 public class HeaderFilter implements HandlerFilterFunction<ServerResponse, ServerResponse>{
 
@@ -18,7 +20,6 @@ public class HeaderFilter implements HandlerFilterFunction<ServerResponse, Serve
         Header headers;
         headers = (Header) UtilHeader.getHeaders(request, Header.class);
         ErrorHeader error = Common.validateObject(headers);
-
         return error!=null?Common.responseErrorMessage(error):next.handle(request);
     }
 

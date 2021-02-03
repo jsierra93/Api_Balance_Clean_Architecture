@@ -11,11 +11,13 @@ import co.com.jsierra.model.transaction.RqTransaction;
 import co.com.jsierra.model.transaction.RsTransaction;
 import co.com.jsierra.model.transaction.gateways.TransactionGateway;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 public class BalancemovementUseCase {
 
@@ -24,6 +26,7 @@ public class BalancemovementUseCase {
 
 
     public Mono<RsBalancemovements> getBalanceMovements(RqBalancemovements rqBalancemovements) {
+        log.info("Request => {}", rqBalancemovements);
         //Construimos los request Balance
         RqData rqData = rqBalancemovements.getData().get(0);
 
@@ -77,6 +80,7 @@ public class BalancemovementUseCase {
                                     .build())
                             .build();
 
+                    log.info("Response => {}", rsBalancemovements);
                     return Mono.just(rsBalancemovements);
                 });
     }
