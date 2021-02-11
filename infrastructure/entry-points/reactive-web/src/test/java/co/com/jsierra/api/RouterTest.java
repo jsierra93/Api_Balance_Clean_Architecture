@@ -9,7 +9,6 @@ import co.com.jsierra.model.transaction.RqOffice;
 import co.com.jsierra.model.transaction.RqPagination;
 import co.com.jsierra.model.transaction.RqTransactionBody;
 import co.com.jsierra.usecase.balancemovement.BalancemovementUseCase;
-import com.sun.tools.javac.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,6 +22,7 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import reactor.core.publisher.Mono;
 
 import java.time.Duration;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 

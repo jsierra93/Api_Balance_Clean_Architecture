@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    environment: DEV
+  name: balance-deployment
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      pod: balance-pod
+  template:
+    metadata:
+      labels:
+        app: balance
+        pod: balance-pod
+    spec:
+      containers:
+        - name: balance-container
+          image: jsierra93/api-balance:1.0
+          ports:
+            - name: balance
+              containerPort: 8081
+              protocol: TCP

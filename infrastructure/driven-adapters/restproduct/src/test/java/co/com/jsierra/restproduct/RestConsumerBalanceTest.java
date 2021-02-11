@@ -3,7 +3,6 @@ package co.com.jsierra.restproduct;
 import co.com.jsierra.model.balance.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.javac.util.List;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.After;
@@ -21,6 +20,7 @@ import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RestConsumerBalanceTest {

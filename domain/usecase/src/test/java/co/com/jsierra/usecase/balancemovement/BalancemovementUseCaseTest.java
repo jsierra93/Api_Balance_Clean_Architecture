@@ -7,7 +7,6 @@ import co.com.jsierra.model.balancemovements.RqData;
 import co.com.jsierra.model.balancemovements.RsBalancemovements;
 import co.com.jsierra.model.transaction.*;
 import co.com.jsierra.model.transaction.gateways.TransactionGateway;
-import com.sun.tools.javac.util.List;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +18,7 @@ import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import static org.mockito.Mockito.when;
 
