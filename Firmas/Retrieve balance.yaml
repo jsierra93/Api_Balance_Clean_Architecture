@@ -21,68 +21,7 @@ paths:
         - "Consulta saldos"
       summary: "Permite consultar el saldo consolidado"
       description: "Esta operacion nos permite cosultar los saldos por medio de una cuenta"
-      parameters:
-        - in: header
-          name: Transaction-Tracker
-          schema:
-            type: string
-            format: uuid
-            example: "8348c30c-1296-4882-84b8-d7306205ce26"
-          description: "ID para trazabilidad de la transacción ante logs. Debe ser proporcionado por el front. debe ser único por transacción."
-          required: true
-        - in: header
-          name: Session-Tracker
-          schema:
-            type: string
-            format: uuid
-            example: "15980943-5fcd-4423-a948-b015452d7479"
-          description: "ID para trazabilidad de la sesión. Debe ser proporcionado por el front. Se debe enviar el correspondiente a la sesion de usuario activa."
-          required: true
-        - in: header
-          name: "Channel"
-          schema:
-            type: string
-            example: "APP"
-          description: "Identificador del canal que esta usando el servicio."
-          required: true
-        - in: header
-          name: "Date"
-          schema:
-            type: string
-            format: utf-8 
-            example: "2019/08/23"
-          description: "Información de la fecha actual del front, en la que se envió la petición al servicio."
-          required: true
-        - in: header
-          name: "Date-time"
-          schema:
-            type: string
-            format: utf-8
-            example: "15:59:00"
-          description: "Información de la hora actual del front, en la que se envió la petición al servicio en formato 24h"
-          required: true
-        - in: header
-          name: "Ip"
-          schema:
-            type: string
-            example: "192.168.164.25"
-          description: "Ip del dispositivo en el cual se generó la petición."
-          required: true
-        - in: header
-          name: "ClientID"
-          schema:
-            type: string
-            example: "10095928"
-          description: "Documento de identificación del cliente que realiza la petición."
-          required: true
-        - in: header
-          name: "ClientType"
-          schema:
-            type: string
-            example: "CC"
-          description: "Tipo de Documento de identificación del cliente que realiza la petición."
-          required: true
-
+      
       requestBody:
         required: true
         content:
