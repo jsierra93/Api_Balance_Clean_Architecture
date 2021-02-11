@@ -25,7 +25,7 @@ POST: https://practicabanco.getsandbox.com:443/balances
 
 ## Definición de mensajeria
 
-Link de acceso a la mensajeria: https://github.com/santiVY/RetoCirculoTecnico/tree/main/firmas
+Link de acceso a la mensajeria: https://github.com/jsierra93/Api_Balance_Clean_Architecture/tree/master/Firmas
 
 Metodo de consumo POST
 ENDPOINT: http://xxxx:8081/balance/movements

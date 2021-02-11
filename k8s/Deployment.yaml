@@ -6,7 +6,7 @@ metadata:
   name: balance-deployment
   namespace: default
 spec:
-  replicas: 1
+  replicas: 3
   selector:
     matchLabels:
       pod: balance-pod
