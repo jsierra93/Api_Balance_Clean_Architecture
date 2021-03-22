@@ -6,8 +6,8 @@ metadata:
   name: balance-deployment
   namespace: default
 spec:
-  replicas: 3
-  minReadySeconds: 5
+  replicas: 5
+  minReadySeconds: 20
   strategy:
     type: RollingUpdate
     rollingUpdate:
@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
         - name: balance-container
-          image: jsierra93/api-balance:1.0
+          image: jsierra93/api-balance:1.1
           imagePullPolicy: Never  # IfNotPresent / Always / Never
           ports:
             - name: balance

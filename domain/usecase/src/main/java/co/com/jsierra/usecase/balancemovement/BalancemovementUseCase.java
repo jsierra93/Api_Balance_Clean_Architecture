@@ -53,8 +53,6 @@ public class BalancemovementUseCase {
                 .data(rqDataTransactions)
                 .build();
 
-    //    Mono<RsBalance> rsBalance = balanceGateway.getBalance(rqBalance);
-   //     Mono<RsTransaction> rsTransaction = transactionGateway.getTransactions(rqTransaction);
 
         return Mono.zip(balanceGateway.getBalance(rqBalance), transactionGateway.getTransactions(rqTransaction))
                 .flatMap(response -> {

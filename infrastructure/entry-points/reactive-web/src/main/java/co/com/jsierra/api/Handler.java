@@ -21,11 +21,10 @@ public class Handler {
 
         Mono<RqBalancemovements> rqBalancemovements = serverRequest.bodyToMono(RqBalancemovements.class);
 
-        Mono<RsBalancemovements> response = rqBalancemovements.flatMap(
-                body -> balancemovementUseCase.getBalanceMovements(body)
-        );
-
         return ServerResponse.ok()
-                .body(response, RsBalancemovements.class);
+                .header("app-version","1.1")
+                .body(rqBalancemovements.flatMap(
+                        body -> balancemovementUseCase.getBalanceMovements(body)
+                ), RsBalancemovements.class);
     }
 }

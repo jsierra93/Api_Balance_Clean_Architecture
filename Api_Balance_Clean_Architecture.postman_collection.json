@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "521406be-748e-4b72-9853-c503709458d7",
+		"name": "Api_Balance_Clean_Architecture",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Retrieve_Transaction",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://practicabanco.getsandbox.com:443/movements",
+					"protocol": "https",
+					"host": [
+						"practicabanco",
+						"getsandbox",
+						"com"
+					],
+					"port": "443",
+					"path": [
+						"movements"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Retrieve_Balance",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "https://practicabanco.getsandbox.com:443/balances",
+					"protocol": "https",
+					"host": [
+						"practicabanco",
+						"getsandbox",
+						"com"
+					],
+					"port": "443",
+					"path": [
+						"balances"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Balance_movements",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Channel",
+						"value": "APP",
+						"type": "text"
+					},
+					{
+						"key": "Date",
+						"value": "2021/02/02",
+						"type": "text"
+					},
+					{
+						"key": "DateTime",
+						"value": "12:00:00",
+						"type": "text"
+					},
+					{
+						"key": "Ip",
+						"value": "127.0.0.1",
+						"type": "text"
+					},
+					{
+						"key": "ClientID",
+						"value": "1234567890",
+						"type": "text"
+					},
+					{
+						"key": "ClientType",
+						"value": "CC",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"data\": [\r\n    {\r\n      \"account\": {\r\n        \"type\": \"CUENTA_DE_AHORRO\",\r\n        \"number\": \"40678098765\"\r\n      },\r\n      \"transaction\": {\r\n        \"startDate\": \"2020-01-01\",\r\n        \"endDate\": \"'2020-01-30\",\r\n        \"minAmount\": \"2\",\r\n        \"maxAmount\": \"4\",\r\n        \"type\": \"DEBITO\",\r\n        \"checkNumber\": \"\",\r\n        \"group\": \"\",\r\n        \"description\": \"\"\r\n      },\r\n      \"pagination\": {\r\n        \"size\": \"30\",\r\n        \"key\": \"1\"\r\n      },\r\n      \"office\": {\r\n        \"code\": \"2005678\",\r\n        \"name\": \"2005678\"\r\n      }\r\n    }\r\n  ]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/balance/movements",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"balance",
+						"movements"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
